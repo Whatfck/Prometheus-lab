@@ -1,0 +1,133 @@
+{
+  "uid": "node-exporter-overview",
+  "title": "Node Exporter Overview",
+  "tags": ["prometheus", "node-exporter", "linux"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "5s",
+  "style": "dark",
+  "graphTooltip": 1,
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "liveNow": false,
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "CPU Usage %",
+      "id": 1,
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {"displayMode": "table", "placement": "bottom", "calcs": ["lastNotNull", "mean"]},
+        "tooltip": {"mode": "single", "sort": "none"}
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "100 - (avg(rate(node_cpu_seconds_total{mode=\"idle\"}[1m])) * 100)",
+          "legendFormat": "CPU",
+          "datasource": {"type": "prometheus", "uid": "prometheus"}
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "RAM Usage %",
+      "id": 2,
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {"displayMode": "table", "placement": "bottom", "calcs": ["lastNotNull", "mean"]},
+        "tooltip": {"mode": "single", "sort": "none"}
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100",
+          "legendFormat": "RAM",
+          "datasource": {"type": "prometheus", "uid": "prometheus"}
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Disk Read / Write MB/s",
+      "id": 3,
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+      "fieldConfig": {
+        "defaults": {
+          "unit": "MBs"
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {"displayMode": "table", "placement": "bottom", "calcs": ["lastNotNull", "mean"]},
+        "tooltip": {"mode": "single", "sort": "none"}
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rate(node_disk_read_bytes_total[1m]) / 1048576",
+          "legendFormat": "Read",
+          "datasource": {"type": "prometheus", "uid": "prometheus"}
+        },
+        {
+          "refId": "B",
+          "expr": "rate(node_disk_written_bytes_total[1m]) / 1048576",
+          "legendFormat": "Write",
+          "datasource": {"type": "prometheus", "uid": "prometheus"}
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Network Receive / Transmit MB/s",
+      "id": 4,
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+      "fieldConfig": {
+        "defaults": {
+          "unit": "MBs"
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {"displayMode": "table", "placement": "bottom", "calcs": ["lastNotNull", "mean"]},
+        "tooltip": {"mode": "single", "sort": "none"}
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rate(node_network_receive_bytes_total{device!~\"lo\"}[1m]) / 1048576",
+          "legendFormat": "Receive",
+          "datasource": {"type": "prometheus", "uid": "prometheus"}
+        },
+        {
+          "refId": "B",
+          "expr": "rate(node_network_transmit_bytes_total{device!~\"lo\"}[1m]) / 1048576",
+          "legendFormat": "Transmit",
+          "datasource": {"type": "prometheus", "uid": "prometheus"}
+        }
+      ]
+    }
+  ],
+  "templating": {"list": []},
+  "annotations": {"list": []},
+  "time": {"from": "now-15m", "to": "now"},
+  "timepicker": {"refresh_intervals": ["5s", "10s", "30s", "1m", "5m"]},
+  "timezone": "browser"
+}

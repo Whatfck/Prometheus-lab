@@ -29,6 +29,7 @@ Juego React/Three.js en el navegador
 - `prometheus.yml` con la configuración de scrape
 - `docker-compose.yml` para levantar Prometheus, Grafana y Node Exporter
 - Provisioning automático de la fuente de datos en Grafana
+- Un dashboard base de Node Exporter que se carga automáticamente en Grafana
 
 ## Requisitos previos
 
@@ -126,6 +127,10 @@ Credenciales por defecto:
 ### Fuente de datos
 
 La fuente de datos de Prometheus queda configurada automáticamente con provisioning, así que no necesitas crearla a mano.
+
+### Dashboard base
+
+Al levantar el stack, Grafana carga automáticamente el dashboard `Node Exporter Overview` desde `grafana/dashboards/node-exporter-overview.json`.
 
 ### Explore
 
